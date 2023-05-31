@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "shop3",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "e_shop",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "username",
+    "password": "password",
+    "database": "e_shop",
+    "host": "host",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
