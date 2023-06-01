@@ -44,13 +44,20 @@
                 </div>
                 <div class="col-md-3">
                     <div class="user">
+                        {{#if isLoggedIn}}
                         <div class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account</a>
                             <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Login</a>
-                                <a href="#" class="dropdown-item">Register</a>
+                                <a href="/users/my-account" class="dropdown-item">Profile</a>
+                                <a href="/users/wishlist" class="dropdown-item">Wishlist</a>
+                                <a href="/users/logout" class="dropdown-item">Log out</a>
                             </div>
                         </div>
+                        {{else}}
+                        <div class="dropdown">
+                            <a href="/login">Login or register</a>
+                        </div>
+                        {{/if}}
                         <div class="cart">
                             <a href="/products/cart">
                                 <i class="fa fa-cart-plus"></i>
