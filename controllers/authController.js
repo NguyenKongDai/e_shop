@@ -2,6 +2,7 @@
 
 const controller = {};
 const passport = require('./passport');
+const models = require('../models');
 
 controller.show = (req, res) => {
     if (req.isAuthenticated()) {
@@ -68,6 +69,25 @@ controller.register = (req, res, next) => {
             res.redirect(reqUrl);
         })
     })(req, res, next);
+}
+
+controller.showForgotPassword = (req, res) => {
+    res.render('forgot-password');
+}
+
+controller.forgotPassword = async (req, res) => {
+    let email = req.body.email;
+    // kiem tra email ton tai
+    let user = await models.User.findOne({ where: { email } });
+    if (user) {
+        // tao link
+        // gui email
+        // thong bao thanh cong
+        return res.render('forgot-password', { done: true });
+    } else {
+        // nguoc lai, thong bao email khong ton tai
+        return res.render('forgot-password', { message: 'Email does not exist!' });
+    }
 }
 
 module.exports = controller;
