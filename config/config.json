@@ -1,10 +1,9 @@
 {
   "development": {
-    "use_env_variable": "POSTGRESQL_URL",
-    "username": "e_shop_db",
-    "password": "erKdE0NOWnzWndoW9sy0c7OYAzK8JeKc",
-    "database": "e_shop_db_ojm8",
-    "host": "dpg-chrghorhp8ud4n7gkmag-a.oregon-postgres.render.com",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "shop3",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
