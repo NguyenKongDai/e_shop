@@ -81,13 +81,47 @@ controller.forgotPassword = async (req, res) => {
     let user = await models.User.findOne({ where: { email } });
     if (user) {
         // tao link
+        const { sign } = require('./jwt');
+        const host = req.header('host');
+        const resetLink = `${req.protocol}://${host}/users/reset?token=${sign(email)}&email=${email}`;
         // gui email
-        // thong bao thanh cong
-        return res.render('forgot-password', { done: true });
+        const { sendForgotPasswordMail } = require('./mail');
+        sendForgotPasswordMail(user, host, resetLink)
+            .then((result) => {
+                console.log('Email has been sent');
+                return res.render('forgot-password', { done: true });
+            })
+            .catch((error) => {
+                console.log(error.statusCode);
+                return res.render('forgot-password', { message: 'An error has occured when sending to your email. Please check your email address!' });
+            });
     } else {
         // nguoc lai, thong bao email khong ton tai
         return res.render('forgot-password', { message: 'Email does not exist!' });
     }
 }
+
+controller.showResetPassword = (req, res) => {
+    let email = req.query.email;
+    let token = req.query.token;
+    let { verify } = require('./jwt');
+
+    if (!token || !verify(token)) {
+        return res.render('reset-password', { expired: true });
+    } else {
+        return res.render('reset-password', { email, token });
+    }
+}
+
+controller.resetPassword = async (req, res) => {
+    let email = req.body.email;
+    let token = req.body.token;
+    let bcrypt = require('bcrypt');
+    let password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
+
+    await models.User.update({ password }, { where: { email } });
+    res.render('reset-password', { done: true });
+}
+
 
 module.exports = controller;
